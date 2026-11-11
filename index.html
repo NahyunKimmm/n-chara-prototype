@@ -7086,7 +7086,7 @@ const FN={
  dam(){openSheet('dam')},
  damPick(t){$$('#sh-dam .dm-a').forEach(x=>x.classList.toggle('on',x===t))},
  introDone(){show('home','tab')},
- enListen(){if($('#enAi').classList.contains('listen'))return;$('#enAi').classList.add('listen');scr('enter').classList.add('listen');$('#enPl').textContent='듣고 있어요';$('#enDim').classList.add('on');$('#enIn').classList.add('on');const t='메론빵만 모아볼 수 있게 정리해줘';const sp=$('#enTx');sp.textContent='';let i=0;clearInterval(FN._ty);setTimeout(()=>{FN._ty=setInterval(()=>{sp.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(FN._ty)},70)},500)},
+ enListen(){if($('#enAi').classList.contains('listen'))return;$('#enAi').classList.add('listen');scr('enter').classList.add('listen');$('#enPl').textContent='듣고 있어요';$('#enDim').classList.add('on');$('#enIn').classList.add('on');const t='메론빵만 모아볼 수 있게 정리해줘';const sp=$('#enTx');sp.textContent='';let i=0;clearInterval(FN._ty);setTimeout(()=>{FN._ty=setInterval(()=>{sp.textContent=t.slice(0,++i);if(i>=t.length)clearInterval(FN._ty)},120)},700)},
  enMelon(on){const f=$('#enFeed');f.dataset.mode=on?'melon':'';$$('.if-col',f).forEach(c=>c.innerHTML='');melI=0;feed(null,f,2,on?6:4)},
  enCancel(){clearInterval(FN._ty);clearTimeout(FN._th);scr('enter').classList.remove('listen');$('#enAi').classList.remove('listen','think');$('#enIn').classList.remove('sent');$('#enPl').textContent='말 걸어보기';$('#enDim').classList.remove('on');$('#enIn').classList.remove('on')},
  enSend(){if($('#enAi').classList.contains('think'))return;clearInterval(FN._ty);$('#enTx').textContent='메론빵만 모아볼 수 있게 정리해줘';$('#enIn').classList.add('sent');$('#enAi').classList.add('think');$('#enPl').textContent='메론빵 기록 찾는 중';
