@@ -3526,7 +3526,15 @@ img.av,span.av{align-self:center;aspect-ratio:1/1!important;height:auto!importan
 #s-enter .if-c .bm,#s-enter .if-c.blog .bt img,#s-enter .if-c.en-blog>small:first-of-type>img{display:none!important}
 /* 부캐 홈: 다이얼은 화면 아래에 붙이고, 짧은 화면에서는 카드가 비율대로 줄어듦 */
 #s-home .hm-dial{top:calc(var(--ph,844px) + 62px - 252px)}
-#s-home .hm-card{transform-origin:50% 0;scale:var(--hmk,1)}
+#s-home .hm-card{height:var(--hc,489px)}
+#s-home .hm-ch,#s-home .on .hm-ch{left:50%!important;width:auto!important;height:calc(var(--hc,489px) - 118px)!important;aspect-ratio:327/371;transform:translateX(-50%);object-fit:contain}
+#s-home .hm-fade{top:calc(var(--hc,489px) - 145px)}
+#s-home .hm-row{top:calc(var(--hc,489px) - 119px);left:0;right:0;justify-content:center}
+/* 파티 보드 스티커: 시트 위 남는 공간에 게시물이 다 보이게 */
+.lift-card{transform-origin:50% 0}
+#lift.on #liftCard{transform:rotate(4deg) scale(var(--lk,1))}
+html.short #sh-stick,html.short #sh-product{height:350px!important}html.short #sh-stick .stk-field,html.short #sh-product .stk-field{padding-top:4px!important;min-height:0!important;height:auto!important}
+html.short .stk-field{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:18px}html.short .stk-field::-webkit-scrollbar{display:none}html.short .stk-field>*{flex:none}
 /* 모바일: 폰 프레임 없이 화면 꽉 채움 */
 html.m,html.m body{background:#EFEFF0;height:100%}
 html.m #phone{width:390px!important;border-radius:0!important;box-shadow:none!important}
@@ -7098,10 +7106,16 @@ LN.addEventListener('click',e=>{if(e.target.closest('button'))return;LN.classLis
 function openLift(kind){const c=$('#liftCard');
  if(kind==='club'){c.innerHTML='<div class="ph"><img src="a/board_imgImageCoffee1.webp" alt=""></div><div class="cap"><b>Club FF</b><span>망원동 · 카페</span></div>';addStk(c,'<img src="a/e_perfect.svg" width="90" alt="">',-30,-24,-10);addStk(c,'<img src="data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 overflow=%22visible%22 style=%22display: block;%22 width=%2258.4613%22 height=%2258.4613%22 viewBox=%220 0 58.4613 58.4613%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%0A%3Cg id=%22Group 2147229606%22%3E%0A%3Cpath id=%22Vector%22 d=%22M58.4613 29.2297C58.4613 45.3751 45.3751 58.4613 29.2297 58.4613C13.0842 58.4613 0 45.3751 0 29.2297C0 13.0842 13.0861 0 29.2297 0C45.3732 0 58.4613 13.0861 58.4613 29.2297Z%22 fill=%22%23BBF243%22/%3E%0A%3Cpath id=%22Vector_2%22 d=%22M54.8602 29.2288C54.8602 43.3824 43.3865 54.8562 29.2329 54.8562C15.0792 54.8562 3.60546 43.3824 3.60546 29.2288C3.60546 15.0751 15.0792 3.60137 29.2329 3.60137C43.3865 3.60137 54.8602 15.0751 54.8602 29.2288Z%22 stroke-width=%222.22222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke=%22%23121212%22/%3E%0A%3Cpath id=%22Vector_3%22 d=%22M26.3697 19.5082C26.3697 21.0879 25.5073 22.5539 24.5509 23.5103L17.5012 31.1009C17.1817 31.4459 16.731 31.6144 16.2822 31.6066C15.8333 31.6144 15.3826 31.4459 15.0631 31.1009L8.01343 23.5103C7.057 22.5539 6.19466 21.0879 6.19466 19.5082C6.19466 16.6742 8.52104 14.6144 11.5824 14.5164C13.4913 14.4557 15.1964 15.2808 16.2547 16.5841C16.2645 16.5723 16.2724 16.5625 16.2822 16.5508C16.292 16.5625 16.2998 16.5723 16.3096 16.5841C17.3679 15.2808 19.073 14.4557 20.982 14.5164C24.0433 14.6144 26.3697 16.6742 26.3697 19.5082Z%22 fill=%22%23FF64CB%22/%3E%0A%3Cpath id=%22Vector_4%22 d=%22M49.8193 19.5064C49.8193 21.086 48.9569 22.552 48.0005 23.5085L40.9508 31.0991C40.6314 31.444 40.1806 31.6126 39.7318 31.6047C39.283 31.6126 38.8322 31.444 38.5127 31.0991L31.463 23.5085C30.5066 22.552 29.6443 21.086 29.6443 19.5064C29.6443 16.6724 31.9707 14.6126 35.032 14.5146C36.9409 14.4538 38.646 15.2789 39.7043 16.5822C39.7141 16.5705 39.722 16.5607 39.7318 16.5489C39.7416 16.5607 39.7494 16.5705 39.7592 16.5822C40.8175 15.2789 42.5226 14.4538 44.4316 14.5146C47.4929 14.6126 49.8193 16.6724 49.8193 19.5064Z%22 fill=%22%23FF64CB%22/%3E%0A%3Cpath id=%22Vector_5%22 d=%22M22.3976 47.4575C22.1154 47.4575 21.839 47.4399 21.5705 47.4065C19.5068 47.1439 17.9996 45.9386 17.541 44.1845C17.1295 42.6088 17.8507 41.3054 18.9051 40.3275C17.7939 40.0648 16.8296 39.4259 16.4239 37.8913C16.075 36.5704 16.3867 35.318 17.3019 34.3635C18.6974 32.9093 21.3197 32.3919 24.1458 33.0132C24.675 33.1288 25.0082 33.6521 24.8925 34.1813C24.7769 34.7104 24.2536 35.0436 23.7244 34.928C21.5941 34.4596 19.6283 34.7712 18.717 35.7217C18.2799 36.1764 18.1466 36.7389 18.3191 37.3916C18.5954 38.4381 19.1932 38.5694 21.4157 38.5381C21.6509 38.5342 21.89 38.5322 22.133 38.5322C22.6073 38.5322 23.015 38.8732 23.0973 39.3397C23.1796 39.8061 22.917 40.2667 22.4721 40.4313C22.4388 40.4431 18.9463 41.8072 19.4382 43.6906C19.7851 45.0155 21.0786 45.3722 21.8194 45.4663C23.5931 45.6917 25.4511 44.9273 26.1429 43.6887C26.4075 43.2163 27.0033 43.0478 27.4757 43.3104C27.948 43.575 28.1165 44.1708 27.8539 44.6431C26.7819 46.5638 24.4418 47.4614 22.3996 47.4614L22.3976 47.4575Z%22 fill=%22%23121212%22/%3E%0A%3C/g%3E%0A%3C/svg%3E%0A" width="54" alt="">',204,118,0);addStk(c,'<img src="a/e_musteat.svg" width="122" alt="">',110,210,-8)}
  else{c.innerHTML='<div class="ph"><img src="a/board_imgPhotoBagelLime.webp" alt=""></div><div class="slot"><i>+</i>스티커 붙이기</div>';addStk(c,'<img src="a/e_nado.svg" width="112" alt="">',-30,22,-6);addStk(c,'<img src="a/e_bolt.svg" width="34" alt="">',212,-30,14);addStk(c,'<img src="a/e_musteat.svg" width="122" alt="">',-50,170,32);addStk(c,'<img src="a/e_nado.svg" width="112" alt="">',130,186,6)}
- $('#lift').classList.add('on')}
+ $('#lift').classList.add('on');setTimeout(fitLift,60);setTimeout(fitLift,480)}
+function fitLift(){const L=$('#lift'),c=$('#liftCard');if(!L||!c)return;if(!L.classList.contains('on')){window.__lk=1;return}
+ const pr=phone.getBoundingClientRect(),sc=pr.width/390,lt=(L.getBoundingClientRect().top-pr.top)/sc;
+ const sh=[...phone.querySelectorAll('.sheet.on')].find(x=>x.getBoundingClientRect().height>0);
+ const bot=(sh?(sh.getBoundingClientRect().top-pr.top)/sc:pr.height/sc)-16-lt;const head=70-lt;const need=330;const avail=Math.max(120,bot-head);
+ const k=Math.min(1,avail/need);window.__lk=k;c.style.setProperty('--lk',k);c.style.top=(head+28*k+Math.max(0,(avail-need*k)/2))+'px'}
+setInterval(fitLift,350);
 function addStk(card,html,x,y,r){const d=document.createElement('div');d.className='stk';d.innerHTML=html;d.style.left=x+'px';d.style.top=y+'px';d.style.transform=`rotate(${r}deg)`;card.appendChild(d);drag(d,card);return d}
 function drag(d,card){let sx,sy,ox,oy,on=false;d.addEventListener('pointerdown',e=>{on=true;sx=e.clientX;sy=e.clientY;ox=d.offsetLeft;oy=d.offsetTop;d.setPointerCapture(e.pointerId);d.style.zIndex=9;e.stopPropagation()});
- d.addEventListener('pointermove',e=>{if(!on)return;const s=phone.getBoundingClientRect().width/390;d.style.left=ox+(e.clientX-sx)/s+'px';d.style.top=oy+(e.clientY-sy)/s+'px'});
+ d.addEventListener('pointermove',e=>{if(!on)return;const s=phone.getBoundingClientRect().width/390;const q=card.id==='liftCard'?(window.__lk||1):1;d.style.left=ox+(e.clientX-sx)/s/q+'px';d.style.top=oy+(e.clientY-sy)/s/q+'px'});
  d.addEventListener('pointerup',()=>{on=false})}
 /* ---------- stickers ---------- */
 const EMO=['musteat:132','ok:52','nado:124','bolt:30','smile:62','peace:46','think:58','narang:121','hearts:56','perfect:86','whaat:150','tongue:48'];
@@ -7202,17 +7216,10 @@ const ON={
 const LEAVE={};
 /* ---------- intro: original file untouched; only its player chrome hidden & stage filled ---------- */
 const f=$('#introF'),ov=$('#introOver');let introEnd=null;
-f.addEventListener('load',()=>{try{const d=f.contentDocument,w=f.contentWindow,st=d.createElement('style');
- st.textContent='.ctl,.pb,#pb{display:none!important}html,body{background:#EFEFF0!important}.vp{display:block!important;position:fixed!important;inset:0!important;background:var(--fillc,#EFEFF0)}.holder{position:absolute!important;left:0;top:0;width:390px!important;height:844px!important}.stage{transform:none!important;border-radius:0!important;box-shadow:none!important;cursor:default!important;height:var(--sh,844px)!important}#S1{background:#F2F2F2}#S2{background:#F6F6F6}#S2 .dim{bottom:auto!important;height:844px!important}';
- d.head.appendChild(st);
- const SB=54, HD=844-SB;
- const place=()=>{try{const IW=f.clientWidth||390, IH=f.clientHeight||844, hol=d.querySelector('.holder'), stg=d.querySelector('.stage'); if(!hol||!stg)return;
-   let s=1,x=0,extra=0; if(IH>=HD){ s=IW/390; extra=Math.max(0,IH/s-HD); } else { s=Math.min(IW/390,IH/HD); x=(IW-390*s)/2; }
-   stg.style.setProperty('--sh',(844+extra)+'px'); hol.style.setProperty('height',(844+extra)+'px','important');
-   hol.style.transform='translate('+x+'px,'+(-SB*s)+'px) scale('+s+')'; hol.style.transformOrigin='0 0';
-   ov.style.left=(x+20*s)+'px'; ov.style.top=((752-SB)*s)+'px'; ov.style.width=(350*s)+'px'; ov.style.height=(56*s)+'px';
-   const on=d.querySelector('.sc.on'); d.querySelector('.vp').style.setProperty('--fillc',on&&on.id==='S6'?'#121212':on&&on.id==='S2'?'#F6F6F6':on&&on.id==='S1'?'#F2F2F2':'#EFEFF0'); }catch(e){} };
- place(); w.addEventListener('resize',place); addEventListener('nchara-fit',()=>setTimeout(place,30)); setInterval(place,400);
+f.addEventListener('load',()=>{try{const d=f.contentDocument,st=d.createElement('style');
+ st.textContent='.ctl,.pb,#pb{display:none!important}.stage{border-radius:0!important;box-shadow:none!important;cursor:default!important}';d.head.appendChild(st);
+ const place=()=>{const H=f.clientHeight||790,D=H-790;ov.style.left='20px';ov.style.top=(698+D)+'px';ov.style.width='350px';ov.style.height='56px'};
+ place();addEventListener('nchara-fit',()=>setTimeout(place,30));setInterval(place,800);
 }catch(e){}});
 setInterval(()=>{try{const on=!!f.contentDocument.querySelector('#S6.on');ov.classList.toggle('on',on&&cur==='intro');const sk=$('#s-intro .skip');if(sk)sk.style.display=on?'none':'';
  if(on&&!introEnd)introEnd=setTimeout(()=>{try{f.contentWindow.setPause(true)}catch(e){}},4300);if(!on&&introEnd){clearTimeout(introEnd);introEnd=null}}catch(e){}},250);
@@ -7223,7 +7230,7 @@ phone.addEventListener('scroll',()=>{phone.scrollTop=0;phone.scrollLeft=0});
 requestAnimationFrame(()=>{pinHeader('explore','2871:10943');pinHeader('board','2871:27427')});
 function fitFrag(id){const fr=$('#s-'+id+' .frag');if(!fr)return;if(id==='explore'){const f=fr.querySelector('[data-name="피드"]');if(f){const k=phone.getBoundingClientRect().width/390;fr.style.height=Math.ceil((f.getBoundingClientRect().bottom-fr.getBoundingClientRect().top)/k+20)+'px'}return}const top=fr.getBoundingClientRect().top,H=fr.offsetHeight;let mx=0;const k=phone.getBoundingClientRect().width/390;
  fr.querySelectorAll('[data-name^="카드"],[data-name*="특별 카드"],[data-name^="col"] > *').forEach(e=>{if(e.closest('.pinh'))return;const r=e.getBoundingClientRect();if(!r.height||r.height>=H*k-2)return;const b=(r.bottom-top)/k;if(b>mx)mx=b});if(mx>200)fr.style.height=Math.ceil(mx+12)+'px'}
-setTimeout(()=>{fitFrag('board');fitFrag('explore')},300);
+setTimeout(()=>{fitFrag('board');fitFrag('explore')},300);const refit=()=>{fitFrag('board');fitFrag('explore')};addEventListener('nchara-fit',()=>{setTimeout(refit,80);setTimeout(refit,600)});addEventListener('load',refit);setInterval(refit,1200);document.addEventListener('load',e=>{if(e.target.tagName==='IMG')setTimeout(refit,50)},true);
 /* ---------- infinite feeds ---------- */
 const POOL=[
  ['real_ongeundal','플레이스','옹근달 11시 크로핀','성수 · 빵친자 312명 담음',''],
@@ -7309,9 +7316,9 @@ window.snapDl=snapDl;window.__fn=FN;window.pushNotif=pushNotif;
 </script><script>(function(){const H=document.getElementById('holder'),P=document.getElementById('phone'),C=document.getElementById('center');
 function vw(){return document.documentElement.clientWidth||innerWidth}
 function vh(){return (window.visualViewport&&visualViewport.height)||innerHeight}
-function mfit(){const w=vw();if(w>600){document.documentElement.classList.remove('m');P.style.setProperty('--ph','844px');P.style.setProperty('--hmk','1');P.style.height='';H.style.cssText='';C.style.cssText='';if(typeof fit==='function')fit();return}
+function mfit(){const w=vw();if(w>600){document.documentElement.classList.remove('m');P.style.setProperty('--ph','844px');P.style.setProperty('--hc','489px');P.style.height='';H.style.cssText='';C.style.cssText='';if(typeof fit==='function')fit();return}
  document.documentElement.classList.add('m');const k=w/390,h=vh()/k;
  C.style.cssText='position:fixed;inset:0;display:block;padding:0';
  H.style.cssText='position:absolute;left:0;top:0;width:390px;height:'+h+'px;transform:scale('+k+');transform-origin:0 0';
- P.style.height=h+'px';P.style.setProperty('--ph',h+'px');P.style.setProperty('--hmk',String(Math.max(.62,Math.min(1,(h+62-355)/489))));window.dispatchEvent(new Event('nchara-fit'))}
+ P.style.height=h+'px';P.style.setProperty('--ph',h+'px');document.documentElement.classList.toggle('short',h<760);P.style.setProperty('--hc',Math.max(330,Math.min(489,h+62-355))+'px');window.dispatchEvent(new Event('nchara-fit'))}
 addEventListener('resize',mfit);addEventListener('orientationchange',()=>setTimeout(mfit,250));if(window.visualViewport)visualViewport.addEventListener('resize',mfit);mfit();setTimeout(mfit,60);setTimeout(mfit,500)})();</script></body></html>

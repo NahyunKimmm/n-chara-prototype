@@ -15,7 +15,7 @@ html,body{height:100%}
 body{margin:0;background:var(--page);overflow:hidden;padding-left:max(0px,env(safe-area-inset-left,0px));padding-right:max(0px,env(safe-area-inset-right,0px))}
 .vp{position:fixed;inset:0;display:grid;place-items:center}
 .holder{position:relative}
-.stage{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;overflow:hidden;background:var(--bg);cursor:pointer;
+.stage{position:absolute;left:0;top:0;width:390px;height:790px;transform-origin:0 0;overflow:hidden;background:var(--bg);cursor:pointer;
   font-family:P,"Pretendard","Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 .framed .stage{border-radius:44px;box-shadow:0 0 0 10px #111,0 40px 80px -30px rgba(0,0,0,.5)}
 .sc{position:absolute;inset:0;overflow:hidden;visibility:hidden;will-change:transform,opacity}
@@ -47,6 +47,9 @@ body{margin:0;background:var(--page);overflow:hidden;padding-left:max(0px,env(sa
 .tp svg{flex:none;transform:rotate(-90deg)}
 .plus{position:absolute;left:150px;top:120px;font-size:12px;font-weight:700;color:#FF64CB;opacity:0;pointer-events:none}
 .cov{position:absolute;background:#EFEFF0}
+.g{position:absolute;left:0;top:0;width:390px;height:844px;pointer-events:none}
+.c5{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:195px 400px}
+.cm{position:absolute;width:16px;height:16px}
 .bar{position:absolute;left:38px;top:786.5px;height:6px;width:0;border-radius:3px;background:var(--lime)}
 .press{position:absolute;border-radius:100px;background:#fff;opacity:0;pointer-events:none}
 .fixedtop{position:absolute;left:0;top:0;width:390px;height:54px;background:var(--bg);z-index:5}
@@ -97,6 +100,9 @@ const anims=new Set();
 // ---------- helpers
 function L(parent,key,extra={}){ const m=M[key], im=new Image(); im.src=IMG[key]; im.className='L'; im.alt='';
   Object.assign(im.style,{left:m.x+'px',top:m.y+'px',width:m.w+'px',height:m.h+'px'},extra); parent.appendChild(im); return im; }
+let AV=790; const DD=()=>AV-790; const sy=(y,o)=>y-54+o;
+function G(parent,off){ const g=document.createElement('div'); g.className='g'; g.style.transform=`translateY(${-54+off}px)`; parent.appendChild(g); return g; }
+function SL(parent,key,y0,y1,off){ const m=M[key]; const im=L(parent,key); im.style.clipPath=`inset(${Math.max(0,y0-m.y)}px 0 ${Math.max(0,m.y+m.h-y1)}px 0)`; if(off) im.style.transform=`translateY(${off}px)`; return im; }
 function div(parent,cls,style={}){ const d=document.createElement('div'); d.className=cls; Object.assign(d.style,style); parent.appendChild(d); return d; }
 function A(el,kf,opt){ const a=el.animate(kf,Object.assign({fill:'forwards',easing:'cubic-bezier(.2,.8,.2,1)'},opt)); anims.add(a); a.onfinish=()=>anims.delete(a); if(paused) a.pause(); return a; }
 const SPRING='cubic-bezier(.34,1.56,.64,1)', OUT='cubic-bezier(.2,.8,.2,1)', INOUT='cubic-bezier(.65,0,.35,1)';
@@ -120,49 +126,67 @@ function confetti(parent,cx,cy){ const cols=['#BBF243','#FF64CB','#ffffff','#9B6
     A(c,[{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+60}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1300+Math.random()*500,easing:'cubic-bezier(.1,.7,.3,1)'}); } }
 // ---------- scene builders (매 루프마다 새로 그림)
 const B={
- S1(s){ L(s,'s1_base'); const ring=div(s,'ring',{left:'57px',top:'361px',width:'276px',height:'42px',opacity:0}); const toast=L(s,'s1_toast',{opacity:0}); return {ring,toast}; },
- S2(s){ L(s,'s1_base'); const dim=div(s,'dim'); const sheet=L(s,'s2_sheet',{transform:'translateY(100%)'}); const pill=L(s,'s2_pill',{opacity:0}); const hero=L(s,'s2_hero',{opacity:0});
-   const press=div(s,'press',{left:'20px',top:'722px',width:'350px',height:'56px'}); return {dim,sheet,pill,hero,press}; },
- S3(s){ L(s,'s3_base'); div(s,'halo'); const spw=div(s,'spw'); const pill=div(spw,'spill',{opacity:0}); pill.innerHTML='<i class="dot"></i><b>빵친자</b><span class="lbl shim">기록 모으는 중…</span>';
-   const tiles=['t0','t1','t2','t3','t4'].map(k=>L(s,k,{opacity:0}));
-   const chips=['c0','c1','c2','c3'].map(k=>L(s,k,{opacity:0}));
-   const spins=['k0','k1','k2','k3','k4'].map(k=>div(s,'spin',{left:M[k].x+'px',top:M[k].y+'px'}));
-   const checks=['k0','k1','k2','k3','k4'].map(k=>L(s,k,{opacity:0}));
-   const nums=[['9곳',50.8,507.4],['6개',211.8,506.6],['2번',50.9,615.6],['6개',211.8,615.6]].map(([r,x,y])=>{ const d=T(s,{x,top:y,ref:r,size:18,weight:700,color:'#121212',ls:-.36}); d.style.opacity=0; return d; });
-   const hc=T(s,{x:347.7,top:300.9,ref:'5곳 모두 확인',size:14,weight:400,color:'#999999',ls:-.28,align:'right'}); hc.textContent='0 / 5곳 확인';
-   const sift=L(s,'s3_sift',{opacity:0}); const bar=div(s,'bar',{opacity:0});
-   const lab=T(s,{x:78.6,top:747.9,ref:'빵이랑 상관있는 것만 골라내는 중…',size:14,weight:600,color:'#ffffff',ls:-.28}); lab.style.opacity=0; lab.classList.add('shim','dk');
-   const cnt=T(s,{x:350.4,top:782.8,ref:'17 / 23개',size:14,weight:800,color:'#BBF243',align:'right'}); cnt.textContent='0 / 23개'; cnt.style.opacity=0;
-   return {pill,tiles,chips,spins,checks,nums,hc,sift,bar,lab,cnt}; },
- S4(s){ const content=div(s,'',{position:'absolute',left:0,top:0,width:'390px',height:'1200px'}); L(content,'s4_content');
+ S1(s){ const g=G(s,0); L(g,'s1_base'); const ring=div(g,'ring',{left:'57px',top:'361px',width:'276px',height:'42px',opacity:0}); const toast=L(g,'s1_toast',{opacity:0}); return {ring,toast}; },
+ S2(s){ const D=DD(); const c=Math.max(0,-D-38); const oT=D+c, oB=D; const f=(422-c)/422;
+   const gm=G(s,0); L(gm,'s1_base'); const dim=div(s,'dim');
+   const gs=G(s,0); const sheet=div(gs,'g',{transform:'translateY(100%)'});
+   SL(sheet,'s2_sheet',275,844,oB); SL(sheet,'s2_sheet',150,275,oT);
+   const pw=div(gs,'g',{transform:`translateY(${oT}px)`}); const pill=L(pw,'s2_pill',{opacity:0});
+   const hw=div(gs,'g',{transform:`translateY(${oT}px) scale(${f})`,transformOrigin:'195px 276px'}); const hero=L(hw,'s2_hero',{opacity:0});
+   const press=div(gs,'press',{left:'20px',top:(722+oB)+'px',width:'350px',height:'56px'}); return {dim,sheet,pill,hero,press,D}; },
+ S3(s){ const D=DD(); const g=G(s,0); L(g,'s3_base'); div(g,'halo'); const spw=div(g,'spw'); const pill=div(spw,'spill',{opacity:0}); pill.innerHTML='<i class="dot"></i><b>빵친자</b><span class="lbl shim">기록 모으는 중…</span>';
+   const tiles=['t0','t1','t2','t3','t4'].map(k=>L(g,k,{opacity:0}));
+   const chips=['c0','c1','c2','c3'].map(k=>L(g,k,{opacity:0}));
+   const spins=['k0','k1','k2','k3','k4'].map(k=>div(g,'spin',{left:M[k].x+'px',top:M[k].y+'px'}));
+   const checks=['k0','k1','k2','k3','k4'].map(k=>L(g,k,{opacity:0}));
+   const nums=[['9곳',50.8,507.4],['6개',211.8,506.6],['2번',50.9,615.6],['6개',211.8,615.6]].map(([r,x,y])=>{ const d=T(g,{x,top:y,ref:r,size:18,weight:700,color:'#121212',ls:-.36}); d.style.opacity=0; return d; });
+   const hc=T(g,{x:347.7,top:300.9,ref:'5곳 모두 확인',size:14,weight:400,color:'#999999',ls:-.28,align:'right'}); hc.textContent='0 / 5곳 확인';
+   const gb=G(s,D); const sift=L(gb,'s3_sift',{opacity:0}); const bar=div(gb,'bar',{opacity:0});
+   const lab=T(gb,{x:78.6,top:747.9,ref:'빵이랑 상관있는 것만 골라내는 중…',size:14,weight:600,color:'#ffffff',ls:-.28}); lab.style.opacity=0; lab.classList.add('shim','dk');
+   const cnt=T(gb,{x:350.4,top:782.8,ref:'17 / 23개',size:14,weight:800,color:'#BBF243',align:'right'}); cnt.textContent='0 / 23개'; cnt.style.opacity=0;
+   return {g,D,pill,tiles,chips,spins,checks,nums,hc,sift,bar,lab,cnt}; },
+ S4(s){ const D=DD(); const g=G(s,0); const content=div(g,'',{position:'absolute',left:0,top:0,width:'390px',height:'1200px'}); L(content,'s4_content');
    const rows=['r0','r1','r2','r3','r4'].map(k=>L(content,k,{opacity:0})); const why=L(content,'s4_why',{opacity:0});
    div(content,'cov',{left:'20px',top:'815px',width:'360px',height:'52px'});
    T(content,{x:25,top:823.5,ref:'5개만 답하면 취향 정확도가 올라가요',size:18,weight:600,color:'#121212',ls:-.36});
    T(content,{x:24.5,top:849.5,ref:'빵 때문에 남긴 기록인지 빵친자에게 알려주세요',size:12,weight:400,color:'#999999',ls:-.24}); const recs=['q0','q1','q2'].map(k=>L(content,k,{opacity:0}));
-   const top=div(s,'fixedtop'); L(top,'s4_header'); const foot=L(s,'s4_footer'); foot.classList.add('fixedbot'); foot.style.zIndex=5;
-   const fc=div(s,'cov',{left:'20px',top:'788px',width:'350px',height:'26px',zIndex:6}); const ft=T(s,{x:195,top:794,ref:'5개 답하고 취향 정확도 높이기',size:14,weight:500,color:'#565656',ls:-.28,align:'center'}); ft.style.zIndex=6;
-   const press=div(s,'press',{left:'110px',top:'790px',width:'170px',height:'26px',zIndex:6}); return {content,rows,why,recs,press}; },
- S5(s){ L(s,'s5_base'); L(s,'s5_h1'); div(s,'hcover'); T(s,{x:41.5,top:77,ref:'빵친자 취향 맞추기',size:20,weight:600,color:'#121212',ls:-.4});
-   const tp=div(s,'tp'); tp.innerHTML=`<img src="${AVATAR}" alt=""><div class="tx"><b>취향 정확도 <em>72%</em></b><span>고를수록 빵친자가 더 정확하게 모아와요</span></div><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="14" fill="none" stroke="#EFEFF0" stroke-width="4"/><circle class="arc" cx="17" cy="17" r="14" fill="none" stroke="#FF64CB" stroke-width="4" stroke-linecap="round" stroke-dasharray="87.96" stroke-dashoffset="${87.96*.28}"/></svg>`;
-   const plus=div(s,'plus');
-   div(s,'cov',{left:'20px',top:'788px',width:'350px',height:'26px'}); T(s,{x:195,top:794,ref:'지금 정확도로 부캐 만들기',size:14,weight:500,color:'#565656',ls:-.28,align:'center'});
-   const c2=L(s,'s5_card2',{transform:'translateY(10px) scale(.94)',opacity:0}); const c1=L(s,'s5_card1',{transform:'translateY(10px) scale(.94)',opacity:0}); const c0=L(s,'s5_card0',{opacity:0});
-   const bx=L(s,'bx'), bo=L(s,'bo'); const tA=L(s,'s5_toastA',{opacity:0,zIndex:4}); const tB=L(s,'s5_toastB',{opacity:0,zIndex:4});
-   const press=div(s,'press',{left:'90px',top:'788px',width:'210px',height:'26px'}); return {tp,plus,c0,c1,c2,bx,bo,tA,tB,press}; },
- S6(s){ L(s,'s6_base'); const glow=L(s,'s6_glow',{opacity:0}); const card=L(s,'s6_card',{opacity:0}); const nk=L(s,'s6_nk',{opacity:0}); const st=L(s,'s6_sticker',{opacity:0});
-   const title=L(s,'s6_title',{opacity:0}); const stats=L(s,'s6_stats',{opacity:0}); const close=L(s,'s6_close',{opacity:0}); const btn=L(s,'s6_btn',{opacity:0}); const sh=div(s,'shine'); const shi=document.createElement('i'); sh.appendChild(shi);
-   const fx=div(s,'',{position:'absolute',inset:0}); return {glow,card,nk,st,title,stats,close,btn,shi,fx}; }
+   L(g,'s4_header');
+   const gb=G(s,D); L(gb,'s4_footer');
+   div(gb,'cov',{left:'20px',top:'788px',width:'350px',height:'26px'}); T(gb,{x:195,top:794,ref:'5개 답하고 취향 정확도 높이기',size:14,weight:500,color:'#565656',ls:-.28,align:'center'});
+   const press=div(gb,'press',{left:'110px',top:'790px',width:'170px',height:'26px'}); return {D,content,rows,why,recs,press}; },
+ S5(s){ const D=DD(); const c=Math.max(0,-D); const S=D<0?458:650;
+   const g=G(s,0); SL(g,'s5_base',0,S-c,0);
+   const gbb=G(s,D); SL(gbb,'s5_base',S,844,0);
+   L(g,'s5_h1'); div(g,'hcover'); T(g,{x:41.5,top:77,ref:'빵친자 취향 맞추기',size:20,weight:600,color:'#121212',ls:-.4});
+   const tp=div(g,'tp'); tp.innerHTML=`<img src="${AVATAR}" alt=""><div class="tx"><b>취향 정확도 <em>72%</em></b><span>고를수록 빵친자가 더 정확하게 모아와요</span></div><svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="14" fill="none" stroke="#EFEFF0" stroke-width="4"/><circle class="arc" cx="17" cy="17" r="14" fill="none" stroke="#FF64CB" stroke-width="4" stroke-linecap="round" stroke-dasharray="87.96" stroke-dashoffset="${87.96*.28}"/></svg>`;
+   const plus=div(g,'plus');
+   const gc=G(s,0); const gb=G(s,D);
+   const card=(key,st)=>{ const w=div(gc,'c5',st); if(c>0){ SL(w,key,0,458-c,0); SL(w,key,458,2000,-c);
+       div(w,'cm',{left:'28px',top:(458-c-16)+'px',background:'radial-gradient(circle at 100% 0,transparent 15.5px,#fff 16px)'});
+       div(w,'cm',{left:'346px',top:(458-c-16)+'px',background:'radial-gradient(circle at 0 0,transparent 15.5px,#fff 16px)'}); } else L(w,key); return w; };
+   const c2=card('s5_card2',{transform:'translateY(10px) scale(.94)',opacity:0}); const c1=card('s5_card1',{transform:'translateY(10px) scale(.94)',opacity:0}); const c0=card('s5_card0',{opacity:0});
+   div(gb,'cov',{left:'20px',top:'788px',width:'350px',height:'26px'}); T(gb,{x:195,top:794,ref:'지금 정확도로 부캐 만들기',size:14,weight:500,color:'#565656',ls:-.28,align:'center'});
+   const bx=L(gb,'bx'), bo=L(gb,'bo'); const tA=L(gc,'s5_toastA',{opacity:0,zIndex:4}); const tB=L(gc,'s5_toastB',{opacity:0,zIndex:4});
+   const press=div(gb,'press',{left:'90px',top:'788px',width:'210px',height:'26px'}); return {D,tp,plus,c0,c1,c2,bx,bo,tA,tB,press}; },
+ S6(s){ const D=DD(); const m=D<0?Math.min(-D,30):0, rem=D<0?(-D-m):0, f=Math.max(.5,(346-rem)/346);
+   const g=G(s,0); L(g,'s6_base'); const close=L(g,'s6_close',{opacity:0});
+   const gc=G(s,-m); const cg=div(gc,'g',{transform:`scale(${f})`,transformOrigin:'195px 128px'});
+   const glow=L(cg,'s6_glow',{opacity:0}); const card=L(cg,'s6_card',{opacity:0}); const nk=L(cg,'s6_nk',{opacity:0}); const st=L(cg,'s6_sticker',{opacity:0});
+   const fx=div(cg,'',{position:'absolute',inset:0});
+   const gm=G(s,Math.min(D,0)); const title=L(gm,'s6_title',{opacity:0}); const stats=L(gm,'s6_stats',{opacity:0});
+   const gb=G(s,D); const btn=L(gb,'s6_btn',{opacity:0}); const sh=div(gb,'shine'); const shi=document.createElement('i'); sh.appendChild(shi);
+   return {glow,card,nk,st,title,stats,close,btn,shi,fx}; }
 };
 // ---------- timelines
 const R={
  async S1(e,id){ A(e.toast,[{opacity:0,transform:'translateY(36px) scale(.92)'},{opacity:1,transform:'none'}],{duration:650,delay:500,easing:SPRING});
    A(e.ring,[{boxShadow:'0 0 0 0 rgba(187,242,67,.75)',opacity:1},{boxShadow:'0 0 0 16px rgba(187,242,67,0)',opacity:1}],{duration:1300,delay:1100,iterations:3,easing:'ease-out',fill:'none'});
-   await W(2000,id); await tap(195,382,id,e.toast); },
+   await W(2000,id); await tap(195,sy(382,0),id,e.toast); },
  async S2(e,id){ A(e.dim,[{opacity:0},{opacity:.7}],{duration:400}); A(e.pill,[{opacity:0,transform:'translateY(-8px)'},{opacity:1,transform:'none'}],{duration:400,delay:200});
    A(e.sheet,[{transform:'translateY(100%)'},{transform:'translateY(0)'}],{duration:650,delay:120,easing:'cubic-bezier(.2,.9,.25,1.04)'});
    A(e.hero,[{opacity:0,transform:'translateY(60px) scale(.7) rotate(-8deg)'},{opacity:1,transform:'translateY(-6px) scale(1.04) rotate(2deg)',offset:.7},{opacity:1,transform:'none'}],{duration:800,delay:520,easing:OUT});
    A(e.hero,[{transform:'none'},{transform:'rotate(-1.5deg)'},{transform:'rotate(1.5deg)'},{transform:'none'}],{duration:900,delay:1500,easing:'ease-in-out',composite:'add',fill:'none'});
-   await W(2700,id); await tap(195,750,id); A(e.press,[{opacity:.18},{opacity:0}],{duration:350}); await W(150,id); },
+   await W(2700,id); await tap(195,sy(750,e.D),id); A(e.press,[{opacity:.18},{opacity:0}],{duration:350}); await W(150,id); },
  async S3(e,id){ A(e.pill,[{opacity:0,transform:'scale(.8)'},{opacity:1,transform:'none'}],{duration:450,easing:SPRING});
    await W(450,id);
    for(let i=0;i<5;i++){ A(e.tiles[i],[{opacity:0,transform:'translateY(14px) scale(.97)'},{opacity:1,transform:'none'}],{duration:420,easing:OUT});
@@ -178,6 +202,7 @@ const R={
      A(e.pill,[{width:w0+'px'},{width:w1+'px'}],{duration:380,easing:OUT});
      A(lbl,[{opacity:0,transform:'translateY(6px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0)'}],{duration:340,delay:80,easing:OUT}); }
    await W(1900,id);
+   { const need=Math.max(0,681+14-(723+e.D)); if(need>0) A(e.g,[{transform:'translateY(-54px)'},{transform:`translateY(${-54-need}px)`}],{duration:520,easing:INOUT}); }
    for(const el of [e.sift]) A(el,[{opacity:0,transform:'translateY(40px)'},{opacity:1,transform:'none'}],{duration:500,easing:OUT});
    for(const el of [e.bar,e.lab,e.cnt]) A(el,[{opacity:0},{opacity:1}],{duration:300,delay:250});
    await W(500,id);
@@ -190,23 +215,23 @@ const R={
  async S4(e,id){ for(let i=0;i<5;i++) A(e.rows[i],[{opacity:0,transform:'translateY(18px)'},{opacity:1,transform:'none'}],{duration:480,delay:350+i*140,easing:OUT});
    A(e.why,[{opacity:0,transform:'translateY(14px) scale(.96)'},{opacity:1,transform:'none'}],{duration:500,delay:350+5*140+120,easing:SPRING});
    await W(3100,id);
-   A(e.content,[{transform:'translateY(0)'},{transform:'translateY(-430px)'}],{duration:1500,easing:INOUT});
+   { const t=Math.min(430-e.D,1200+150-54-AV); A(e.content,[{transform:'translateY(0)'},{transform:`translateY(${-t}px)`}],{duration:1500,easing:INOUT}); }
    for(let i=0;i<3;i++) A(e.recs[i],[{opacity:0,transform:'translateX(24px)'},{opacity:1,transform:'none'}],{duration:450,delay:700+i*130,easing:OUT});
-   await W(2600,id); await tap(195,802,id); A(e.press,[{opacity:.35},{opacity:0}],{duration:350}); await W(100,id); },
+   await W(2600,id); await tap(195,sy(802,e.D),id); A(e.press,[{opacity:.35},{opacity:0}],{duration:350}); await W(100,id); },
  async S5(e,id){ A(e.c0,[{opacity:0,transform:'translateY(24px) scale(.96)'},{opacity:1,transform:'none'}],{duration:500,easing:OUT});
    A(e.c1,[{opacity:0},{opacity:1}],{duration:300,delay:300});
-   await W(2000,id); await tap(257,698,id,e.bo);
+   await W(2000,id); await tap(257,sy(698,e.D),id,e.bo);
    A(e.c0,[{transform:'none',opacity:1},{transform:'translateX(460px) translateY(-30px) rotate(18deg)',opacity:0}],{duration:600,easing:'cubic-bezier(.5,0,.75,0)'});
    A(e.c1,[{transform:'translateY(10px) scale(.94)'},{transform:'none'}],{duration:500,delay:200,easing:SPRING}); A(e.c2,[{opacity:0},{opacity:1}],{duration:300,delay:350});
    (async()=>{ await W(2100,id); await gain(e,72,81,id); })().catch(()=>{});
    A(e.tA,[{opacity:0,transform:'translateY(-16px)'},{opacity:1,transform:'none'}],{duration:350,delay:250,easing:SPRING});
    A(e.tA,[{opacity:1},{opacity:0}],{duration:300,delay:1800});
-   await W(2700,id); await tap(133,698,id,e.bx);
+   await W(2700,id); await tap(133,sy(698,e.D),id,e.bx);
    A(e.c1,[{transform:'none',opacity:1},{transform:'translateX(-460px) translateY(-30px) rotate(-18deg)',opacity:0}],{duration:600,easing:'cubic-bezier(.5,0,.75,0)'});
    A(e.c2,[{transform:'translateY(10px) scale(.94)'},{transform:'none'}],{duration:500,delay:200,easing:SPRING});
    (async()=>{ await W(2000,id); await gain(e,81,88,id); })().catch(()=>{});
    A(e.tB,[{opacity:0,transform:'translateY(-16px)'},{opacity:1,transform:'none'}],{duration:350,delay:250,easing:SPRING}); A(e.tB,[{opacity:1},{opacity:0}],{duration:300,delay:1700});
-   await W(2900,id); await tap(195,801,id); A(e.press,[{opacity:.35},{opacity:0}],{duration:350}); await W(150,id); },
+   await W(2900,id); await tap(195,sy(801,e.D),id); A(e.press,[{opacity:.35},{opacity:0}],{duration:350}); await W(150,id); },
  async S6(e,id){ A(e.glow,[{opacity:0,transform:'scale(.6)'},{opacity:1,transform:'scale(1)'}],{duration:900,easing:OUT});
    A(e.glow,[{transform:'scale(1)'},{transform:'scale(1.08)'},{transform:'scale(1)'}],{duration:2200,delay:900,iterations:3,easing:'ease-in-out',fill:'none'});
    A(e.card,[{opacity:0,transform:'translateY(80px) scale(.4) rotate(-24deg)'},{opacity:1,transform:'translateY(-10px) scale(1.06) rotate(4deg)',offset:.65},{opacity:1,transform:'none'}],{duration:900,delay:150,easing:OUT});
@@ -250,11 +275,15 @@ function tick(now){ const dt=now-lastNow; lastNow=now; if(!paused) clock=Math.mi
   ORDER.forEach(k=>{ const f=Math.max(0,Math.min(1,(clock-START[k])/DUR[k])); segs[k].style.width=(f*100)+'%'; });
   requestAnimationFrame(tick); }
 requestAnimationFrame(tick);
-function fit(){ const w=innerWidth,h=innerHeight,m=w<600; document.getElementById('vp').classList.toggle('framed',!m);
-  scale=m?Math.min(w/390,(h-90)/844):Math.min(1,(h-150)/844,(w-40)/390); stage.style.transform=`scale(${scale})`;
-  const ho=document.getElementById('holder'); ho.style.width=390*scale+'px'; ho.style.height=844*scale+'px'; }
+function fit(){ const w=innerWidth,h=innerHeight, emb=window.self!==window.top, mob=emb||w<600;
+  document.getElementById('vp').classList.toggle('framed',!mob); document.getElementById('ctl').style.display=mob?'none':'';
+  const old=AV;
+  if(mob){ scale=w/390; AV=h/scale; } else { AV=790; scale=Math.min(1,(h-150)/AV,(w-40)/390); }
+  stage.style.height=AV+'px'; stage.style.transform=`scale(${scale})`;
+  const ho=document.getElementById('holder'); ho.style.width=390*scale+'px'; ho.style.height=AV*scale+'px';
+  if(mob){ document.getElementById('vp').style.cssText='display:block;position:fixed;inset:0'; ho.style.position='absolute'; ho.style.left='0'; ho.style.top='0'; } else { document.getElementById('vp').style.cssText=''; ho.style.position=''; }
+  if(window.__started && Math.abs(old-AV)>4) play(ORDER.indexOf(curScene)); }
 addEventListener('resize',fit); fit();
-Promise.all([400,600,700,800].map(w=>document.fonts.load(`${w} 14px P`))).catch(()=>{}).finally(play);
+Promise.all([400,600,700,800].map(w=>document.fonts.load(`${w} 14px P`))).catch(()=>{}).finally(()=>{ window.__started=1; play(); });
 </script>
-
 </body></html>
