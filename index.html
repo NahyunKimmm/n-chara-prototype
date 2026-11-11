@@ -3516,6 +3516,21 @@ img.av,span.av{align-self:center;aspect-ratio:1/1!important;height:auto!importan
 #s-explore [data-node-id="2871:11232"],#s-explore [data-node-id="2871:10926"]{display:none}
 #s-explore .frag>div{border-radius:0!important;background:#efeff0}
 .fab{position:absolute;right:20px;bottom:116px;width:56px;height:56px;border-radius:50%;background:var(--pink);color:#fff;font-size:30px;font-weight:300;z-index:24;box-shadow:0 8px 20px rgba(255,100,203,.45);display:grid;place-items:center;line-height:1}
+</style><style id="nchara-patch">
+/* 상태바 영역 제거: 화면을 상태바 높이만큼 위로 올려 헤더가 맨 위에 붙게 */
+.sb{display:none!important}
+.scr:not(#s-intro){top:-62px}
+#s-intro .skip{top:12px}
+#push{top:8px}
+/* 부캐 홈(부캐 입장 화면) 게시글 북마크 아이콘 제거 */
+#s-enter .if-c .bm,#s-enter .if-c.blog .bt img,#s-enter .if-c.en-blog>small:first-of-type>img{display:none!important}
+/* 부캐 홈: 다이얼은 화면 아래에 붙이고, 짧은 화면에서는 카드가 비율대로 줄어듦 */
+#s-home .hm-dial{top:calc(var(--ph,844px) + 62px - 252px)}
+#s-home .hm-card{transform-origin:50% 0;scale:var(--hmk,1)}
+/* 모바일: 폰 프레임 없이 화면 꽉 채움 */
+html.m,html.m body{background:#EFEFF0;height:100%}
+html.m #phone{width:390px!important;border-radius:0!important;box-shadow:none!important}
+html.m #introF{width:390px!important;height:100%!important}
 </style></head>
 <body><div id="side"></div><div id="center"><div id="holder"><div id="phone"><section class="scr dark" id="s-intro" style="background:#000"><div class="intro-block"></div><iframe id="introF" src="intro.html" title="N캐 유입 인트로" style="position:absolute;inset:0;width:390px;height:844px;border:0"></iframe>
 <button class="introOver" id="introOver" data-fn="introDone" style="left:20px;top:752px;width:350px;height:56px" aria-label="빵친자 키우기"></button>
@@ -6956,7 +6971,7 @@ side.innerHTML='<h2>N캐 · 빵친자 루프</h2><p class="sub">실제 앱처럼
 side.addEventListener('click',e=>{const b=e.target.closest('[data-jump]');if(b)autoT.forEach(clearTimeout);if(!b)return;const [s,x]=b.dataset.jump.split(':');stack.length=0;closeSheets();show(s,'reset');if(x)setTimeout(()=>{x==='push'?pushNotif():x==='dial'?openSheet('dial'):x==='stick'?FN.stickerMode():FN.productSheet()},450)});
 function markMenu(){$$('#side [data-jump]').forEach(b=>b.classList.toggle('cur',b.dataset.jump.split(':')[0]===cur&&!b.dataset.jump.includes(':')))}
 /* ---------- fit ---------- */
-function fit(){const h=innerHeight-40,w=innerWidth>900?innerWidth-300:innerWidth-20;const s=Math.min(1,h/844,w/390);$('#holder').style.transform=`scale(${s})`;$('#center').style.paddingLeft=innerWidth>900?'260px':'0'}
+function fit(){if(innerWidth<=600)return;const h=innerHeight-40,w=innerWidth>900?innerWidth-300:innerWidth-20;const s=Math.min(1,h/844,w/390);$('#holder').style.transform=`scale(${s})`;$('#center').style.paddingLeft=innerWidth>900?'260px':'0'}
 addEventListener('resize',fit);fit();
 /* ---------- navigation ---------- */
 let cur=null;const stack=[];let busy=false;
@@ -7187,7 +7202,18 @@ const ON={
 const LEAVE={};
 /* ---------- intro: original file untouched; only its player chrome hidden & stage filled ---------- */
 const f=$('#introF'),ov=$('#introOver');let introEnd=null;
-f.addEventListener('load',()=>{try{const d=f.contentDocument,st=d.createElement('style');st.textContent='.ctl,.pb,#pb{display:none!important}.vp{display:block!important;position:fixed!important;inset:0!important}.holder{width:390px!important;height:844px!important}.stage{transform:none!important;border-radius:0!important;box-shadow:none!important;cursor:default!important}';d.head.appendChild(st)}catch(e){}});
+f.addEventListener('load',()=>{try{const d=f.contentDocument,w=f.contentWindow,st=d.createElement('style');
+ st.textContent='.ctl,.pb,#pb{display:none!important}html,body{background:#EFEFF0!important}.vp{display:block!important;position:fixed!important;inset:0!important;background:var(--fillc,#EFEFF0)}.holder{position:absolute!important;left:0;top:0;width:390px!important;height:844px!important}.stage{transform:none!important;border-radius:0!important;box-shadow:none!important;cursor:default!important;height:var(--sh,844px)!important}#S1{background:#F2F2F2}#S2{background:#F6F6F6}#S2 .dim{bottom:auto!important;height:844px!important}';
+ d.head.appendChild(st);
+ const SB=54, HD=844-SB;
+ const place=()=>{try{const IW=f.clientWidth||390, IH=f.clientHeight||844, hol=d.querySelector('.holder'), stg=d.querySelector('.stage'); if(!hol||!stg)return;
+   let s=1,x=0,extra=0; if(IH>=HD){ s=IW/390; extra=Math.max(0,IH/s-HD); } else { s=Math.min(IW/390,IH/HD); x=(IW-390*s)/2; }
+   stg.style.setProperty('--sh',(844+extra)+'px'); hol.style.setProperty('height',(844+extra)+'px','important');
+   hol.style.transform='translate('+x+'px,'+(-SB*s)+'px) scale('+s+')'; hol.style.transformOrigin='0 0';
+   ov.style.left=(x+20*s)+'px'; ov.style.top=((752-SB)*s)+'px'; ov.style.width=(350*s)+'px'; ov.style.height=(56*s)+'px';
+   const on=d.querySelector('.sc.on'); d.querySelector('.vp').style.setProperty('--fillc',on&&on.id==='S6'?'#121212':on&&on.id==='S2'?'#F6F6F6':on&&on.id==='S1'?'#F2F2F2':'#EFEFF0'); }catch(e){} };
+ place(); w.addEventListener('resize',place); addEventListener('nchara-fit',()=>setTimeout(place,30)); setInterval(place,400);
+}catch(e){}});
 setInterval(()=>{try{const on=!!f.contentDocument.querySelector('#S6.on');ov.classList.toggle('on',on&&cur==='intro');const sk=$('#s-intro .skip');if(sk)sk.style.display=on?'none':'';
  if(on&&!introEnd)introEnd=setTimeout(()=>{try{f.contentWindow.setPause(true)}catch(e){}},4300);if(!on&&introEnd){clearTimeout(introEnd);introEnd=null}}catch(e){}},250);
 FN.introRestart=()=>{clearTimeout(introEnd);introEnd=null;try{f.contentWindow.setPause(false);f.contentWindow.play(0)}catch(e){}};
@@ -7280,6 +7306,12 @@ phone.addEventListener('pointerdown',e=>{$$('.ai-new').forEach(c=>{if(c.contains
 window.snapDl=snapDl;window.__fn=FN;window.pushNotif=pushNotif;
 })();
 
-</script><script>(function(){const H=document.getElementById('holder'),P=document.getElementById('phone');
-function mfit(){if(innerWidth>600){P.style.height='';H.style.height='';return}const k=innerWidth/390,h=Math.max(640,innerHeight/k);P.style.height=h+'px';H.style.width='390px';H.style.height=h+'px';H.style.transform='scale('+k+')'}
-addEventListener('resize',mfit);addEventListener('orientationchange',()=>setTimeout(mfit,200));mfit();setTimeout(mfit,50);})();</script></body></html>
+</script><script>(function(){const H=document.getElementById('holder'),P=document.getElementById('phone'),C=document.getElementById('center');
+function vw(){return document.documentElement.clientWidth||innerWidth}
+function vh(){return (window.visualViewport&&visualViewport.height)||innerHeight}
+function mfit(){const w=vw();if(w>600){document.documentElement.classList.remove('m');P.style.setProperty('--ph','844px');P.style.setProperty('--hmk','1');P.style.height='';H.style.cssText='';C.style.cssText='';if(typeof fit==='function')fit();return}
+ document.documentElement.classList.add('m');const k=w/390,h=vh()/k;
+ C.style.cssText='position:fixed;inset:0;display:block;padding:0';
+ H.style.cssText='position:absolute;left:0;top:0;width:390px;height:'+h+'px;transform:scale('+k+');transform-origin:0 0';
+ P.style.height=h+'px';P.style.setProperty('--ph',h+'px');P.style.setProperty('--hmk',String(Math.max(.62,Math.min(1,(h+62-355)/489))));window.dispatchEvent(new Event('nchara-fit'))}
+addEventListener('resize',mfit);addEventListener('orientationchange',()=>setTimeout(mfit,250));if(window.visualViewport)visualViewport.addEventListener('resize',mfit);mfit();setTimeout(mfit,60);setTimeout(mfit,500)})();</script></body></html>
