@@ -7118,7 +7118,7 @@ function drag(d,card){let sx,sy,ox,oy,on=false;d.addEventListener('pointerdown',
  d.addEventListener('pointermove',e=>{if(!on)return;const s=phone.getBoundingClientRect().width/390;const q=card.id==='liftCard'?(window.__lk||1):1;d.style.left=ox+(e.clientX-sx)/s/q+'px';d.style.top=oy+(e.clientY-sy)/s/q+'px'});
  d.addEventListener('pointerup',()=>{on=false})}
 /* ---------- stickers ---------- */
-const EMO=['musteat:132','ok:52','nado:124','bolt:30','smile:62','peace:46','think:58','narang:121','hearts:56','perfect:86','whaat:150','tongue:48'];
+const EMO=['musteat:132','ok:52','nado:124','bolt:30','smile:62','peace:46','narang:121','hearts:56','perfect:86'];
 const ACT=[['나도 갈래','#ff64cb','#fff'],['같이 사자','#121212','#bbf243'],['GO!','#bbf243','#121212'],['오픈런각','#fff','#121212'],['겉바속촉','#ff64cb','#fff'],['재방문각','#bbf243','#121212'],['별로예요','#cbcbcc','#393939'],['가봤어','#121212','#bbf243'],['LET\'S GO!','#bbf243','#121212'],['고수 인정','rgba(255,255,255,.6)','#121212']];
 const REC=[['강추','#121212','#bbf243'],['재방문각','#bbf243','#121212'],['가성비 굿','#fff','#121212'],['웨이팅 비추','#cbcbcc','#393939'],['별로예요','#cbcbcc','#393939'],['인생빵','#ff64cb','#fff']];
 function fieldHTML(t){const rot=i=>[-6,4,-3,7,-8,3,5,-4,6,-2,4,-5][i%12];
@@ -7237,37 +7237,41 @@ const POOL=[
  ['dt_clip2','클립','결 살리는 접기 3번','▶ 0:52 · 저장 1.2천','detail'],
  ['real_munchies','플레이스','먼치스 소금빵 품절각','성수 · 지금 웨이팅 20분',''],
  ['real_jayeondo','쇼핑','자연도 소금빵 세트','12,000원 · 무료배송',''],
- ['explore_imgFrame13','블로그','치즈케이크 단면 실화','블로그 · 저장 418',''],
+ ['explore_imgFrame13','블로그','말차 롤케이크 단면 실화','블로그 · 저장 418',''],
  ['real_bready','플레이스','프레첼 6종 정복기','뚝섬 · 저장 1.1천',''],
  ['dt_clip','클립','크루아상 결 ASMR','▶ 0:30 · 저장 980','detail'],
  ['real_index','블로그','카라멜 푸딩 한 스푼','성수 · 인덱스 · 저장 233',''],
- ['explore_imgFrame16','쇼핑','초코칩 쿠키 반죽 6입','8,900원 · 리뷰 1,024',''],
+ ['explore_imgFrame16','쇼핑','시나몬롤 6종 박스','19,800원 · 리뷰 1,024',''],
  ['real_melower','클립','멜로워 쇼케이스 투어','▶ 0:42 · 저장 2.3천','detail'],
- ['explore_imgFrame17','플레이스','딸기 롤케이크 2배','망원 · 빵친자 88명 담음',''],
+ ['explore_imgFrame17','플레이스','티라미수 시나몬롤','망원 · 빵친자 88명 담음',''],
  ['explore_imgFrame18','블로그','캄파뉴 보관법 총정리','블로그 · 저장 1.6천',''],
- ['explore_imgFrame19','클립','페이스츄리 전후 비교','▶ 0:21 · 저장 640','detail'],
- ['explore_imgFrame15','쇼핑','생딸기 케이크 예약','34,000원 · 픽업 가능',''],
- ['board_imgPhotoBakers','플레이스','오픈런 30분 전 빵집','성수 · 웨이팅 정보 실시간',''],
- ['explore_imgFrame6','쇼핑','딸기 찹쌀떡 크루아상','5,800원 · 오늘 출발','']];
+ ['explore_imgFrame19','클립','큐브 페이스츄리 한입','▶ 0:21 · 저장 640','detail'],
+ ['explore_imgFrame15','쇼핑','크림치즈 시나몬롤 예약','4,800원 · 픽업 가능',''],
+ ['bd2_imgPhotoBakers','플레이스','오픈런 30분 전 빵집','성수 · 웨이팅 정보 실시간',''],
+ ['explore_imgFrame6','쇼핑','프로스팅 시나몬롤 9구','24,000원 · 오늘 출발',''],
+ ['bk_salttear','클립','소금빵 찢어보기','▶ 0:18 · 저장 870','detail'],
+ ['bk_bgl','플레이스','갓 구운 참깨 베이글','연남 · 오전 9시 오픈',''],
+ ['bk_saltbox','쇼핑','소금빵 2입 박스','6,400원 · 오늘 출발',''],
+ ['bk_kiro','쇼핑','플레인 베이글 4입','16,000원 · 무료배송','']];
 let poolI=0,melI=0;
 const CROI=[
  ['cr_c15','클립','크루아상 단면 결 체크','▶ 0:28 · 저장 742','','','찢는 소리부터 바삭해요'],
  ['cr_c19','플레이스','오픈 직후 크루아상 진열대','갓 나온 시간 10:30','','','10시 반에 가면 다 있어요'],
  [null,'블로그 · 빵굽는곰','페이스츄리 접기,<br>실패 안 하는 법','저장 860','','버터는 차갑게, 반죽은 세 번만. 27겹 레이어 만드는 법…','보고 바로 성공!'],
- ['explore_imgFrame19','클립','페이스츄리 굽기 전후','▶ 0:21 · 저장 640','','','굽기 전엔 이렇게 얇았는데'],
- ['cr_c5','플레이스','크루아상 + 아메리카노','브런치 세트 · 저장 512','','','커피랑 먹으면 끝없음'],
+ ['explore_imgFrame19','클립','큐브 페이스츄리 겉바속촉','▶ 0:21 · 저장 640','','','결이 몇 겹인지 세보세요'],
+ ['cr_c5','플레이스','갓 구운 뺑오쇼콜라','브런치 세트 · 저장 512','','','커피랑 먹으면 끝없음'],
  ['dt_clip','클립','크루아상 결 ASMR','▶ 0:30 · 저장 980','','','소리 켜고 보세요 🎧'],
- ['cr_c18','쇼핑','냉동 크루아상 생지 10입','15,900원 · 오늘 출발','','','에어프라이어 12분이면 끝'],
+ ['cr_c18','쇼핑','냉동 뺑오쇼콜라 생지 10입','15,900원 · 오늘 출발','','','에어프라이어 12분이면 끝'],
  [null,'블로그 · 페이스츄리러버','뺑오쇼콜라 vs<br>크루아상 승자는','저장 412','','초코가 녹아내리는 뺑오쇼콜라와 버터 폭탄 크루아상. 결론은…','둘 다 사세요 ㅋㅋ'],
  ['cr_gontran','플레이스','곤트란쉐리에 한남','이태원로 211 · 저장 2.1천','','','버터맛 진하고 쫄깃해요']];
 const MELON=[
  ['mel_camelion','플레이스','카멜리온 메론빵','양천구 · 14년 연구한 맛',''],
  ['mel_key','플레이스','키 베이커리 멜론빵','성수 · 소보로 두툼',''],
  [null,'블로그 · 빵덕후','서울 메론빵 6곳,<br>다시 갈 곳만','저장 1.1천','','카멜리온부터 원스타까지. 바삭함은 원스타, 크림은 쉐프의 꿈이 1등…'],
- ['mel_onestar','플레이스','원스타 초코메론빵','동대문 · 달고나처럼 바삭',''],
- ['mel_camelion2','클립','메론 크림빵 단면','▶ 0:24 · 저장 1.4천',''],
+ ['mel_onestar','플레이스','아스파라거스 메론빵','성수 · 쿠키 껍질 바삭',''],
+ ['mel_camelion2','클립','딸기 생크림 메론빵','▶ 0:24 · 저장 1.4천',''],
  [null,'블로그 · 성수빵투어','베통 성수 메론빵,<br>소금빵이랑 같이','저장 266','','소금빵 사러 갔다가 메론빵에 빠짐. 오후 2시 출고분이 제일 따뜻해요…'],
- ['mel_chef','플레이스','메로나맛 크림빵','빵굽는 쉐프의 꿈 · 해방촌',''],
+ ['mel_chef','플레이스','메로나맛 크림 메론빵','빵굽는 쉐프의 꿈 · 해방촌',''],
  [null,'블로그 · 메론빵러버','아소토 메론 크림빵,<br>커스터드 꽉 찼어요','저장 428','','직접 끓인 커스터드를 꽉 채운 메론 크림빵. 겉은 바삭, 일본 킷사텐 그대로예요…']];
 function card(p,i){const[img,tag,t,m,go,ex,cm]=p;if(!img)return `<div class="if-c blog"><div class="bt">${tag}<img src="data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 overflow=%22visible%22 style=%22display: block;%22 width=%2223.8528%22 height=%2223.8528%22 viewBox=%220 0 23.8528 23.8528%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%0A%3Cg id=%22icon %26%23194;%26%23183; %26%23235;%26%23139;%26%23180;%26%23234;%26%23184;%26%23176;%22%3E%0A%3Cpath id=%22Vector%22 d=%22M5.96321 3.97547H17.8896V19.8774L11.9264 15.9019L5.96321 19.8774V3.97547Z%22 stroke-width=%221.98774%22 stroke-linejoin=%22round%22 stroke=%22%23121212%22/%3E%0A%3C/g%3E%0A%3C/svg%3E%0A" width="24" alt=""></div><p>${t}</p><div class="ex">${ex||''}</div><div class="ft">${m}<img src="data:image/svg+xml,%3Csvg preserveAspectRatio=%22none%22 overflow=%22visible%22 style=%22display: block;%22 width=%2223.8528%22 height=%2223.8528%22 viewBox=%220 0 23.8528 23.8528%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%0A%3Cg id=%22icon %26%23194;%26%23183; %26%23237;%26%23153;%26%23148;%26%23236;%26%23130;%26%23180;%26%23237;%26%23145;%26%23156;%22%3E%0A%3Cpath id=%22Vector%22 d=%22M4.96934 11.9264H18.8835M12.9203 17.8896L18.8835 11.9264L12.9203 5.96321%22 stroke-width=%221.98774%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 stroke=%22%23999999%22/%3E%0A%3C/g%3E%0A%3C/svg%3E%0A" width="24" alt=""></div></div>`;const h=[170,220,190,240][i%4];return `<div class="if-c${go?' press':''}"${go?` data-go="${go}"`:''}><div class="im" style="height:${h}px"><img src="a/${img}.webp" alt="" loading="lazy"><span class="tg">${tag}</span>${cm&&tag==='쇼핑'?`<span class="bub">${cm}</span>`:''}</div><p>${t}</p><small>${m}</small></div>`}
 function feed(sc,host,cols,n){const cs=$$('.if-col',host);for(let k=0;k<n;k++){const mel=host.dataset.mode==='melon',cr=host.dataset.mode==='croi';host._i=host._i||0;const p=mel?MELON[melI++%MELON.length]:cr?CROI[host._i++%CROI.length]:POOL[poolI%POOL.length];if(!mel&&!cr)poolI++;const c=cs.reduce((a,b)=>a.offsetHeight<=b.offsetHeight?a:b);c.insertAdjacentHTML('beforeend',card(p,poolI));const el=c.lastElementChild;el.animate([{opacity:0,transform:'translateY(16px)'},{opacity:1,transform:'none'}],{duration:400,easing:'ease-out'})}}
