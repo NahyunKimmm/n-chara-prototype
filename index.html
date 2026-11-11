@@ -6860,11 +6860,11 @@ html.m #introF{width:390px!important;height:100%!important;max-height:100%!impor
  <h3 class="nsn" style="font-size:22px">어떤 부캐로 디깅할까요?</h3><p class="desc" style="font-size:13px">위아래로 돌려서 고른 부캐 취향으로 디깅해요</p>
  <div class="dl-wrap" id="dlWrap"><div class="dl-band"></div>
   <div class="dl-i" data-n="선택 안 함" data-tags="#전체 취향"><span class="th" style="border:1.5px dashed #bbb;background:#fff"></span><div><b>선택 안 함</b><small>부캐 없이 전체 탐색</small></div></div>
-  <div class="dl-i" data-n="필름러" data-tags="#필름카메라 #을지로"><img class="th" src="a/board_imgImageCoffee1.webp" alt=""><div><b>필름러</b><small>필름카메라 · 을지로</small></div></div>
+  <div class="dl-i" data-n="필름러" data-tags="#필름카메라 #을지로"><img class="th" src="a/av_film.webp" alt=""><div><b>필름러</b><small>필름카메라 · 을지로</small></div></div>
   <div class="dl-i" data-n="빵친자" data-tags="#소금빵 #도넛 #성수"><img class="th" src="a/av_bbang.webp" alt=""><div><b>빵친자</b><small>소금빵 · 성수 · 베이글</small></div></div>
-  <div class="dl-i" data-n="산책러" data-tags="#한강 #골목"><img class="th" src="a/explore_imgFrame9.webp" alt=""><div><b>산책러</b><small>한강 · 골목</small></div></div>
-  <div class="dl-i" data-n="캠핑러" data-tags="#오토캠핑"><img class="th" src="a/board_imgImageCake.webp" alt=""><div><b>캠핑러</b><small>오토캠핑</small></div></div>
-  <div class="dl-i" data-n="러닝러" data-tags="#한강 러닝"><img class="th" src="a/explore_imgFrame4.webp" alt=""><div><b>러닝러</b><small>한강 · 러닝크루</small></div></div>
+  <div class="dl-i" data-n="산책러" data-tags="#한강 #골목"><img class="th" src="a/av_walk.webp" alt=""><div><b>산책러</b><small>한강 · 골목</small></div></div>
+  <div class="dl-i" data-n="캠핑러" data-tags="#오토캠핑"><img class="th" src="a/av_camp.webp" alt=""><div><b>캠핑러</b><small>오토캠핑</small></div></div>
+  <div class="dl-i" data-n="러닝러" data-tags="#한강 러닝"><img class="th" src="a/av_run.webp" alt=""><div><b>러닝러</b><small>한강 · 러닝크루</small></div></div>
   <button class="dl-sel" data-fn="dialPick">선택</button></div>
 </div>
 <div class="sheet" id="sh-boardPlus"><div class="grabzone"><div class="grab"></div></div>
@@ -7057,7 +7057,7 @@ const FN={
  pushNo(){hidePush();toast('내일 다시 물어볼게요')},
  pushYes(){hidePush();setTimeout(()=>show('recStamp','fade'),200)},
  openDial(){openSheet('dial')},
- dialPick(){const c=$('.dl-i.cur');if(!c)return;const n=c.dataset.n;$$('#s-explore [data-node-id="2871:10947"] p').forEach(nm=>{nm.firstChild.textContent=(n==='선택 안 함'?'전체':n+' 부캐')+' '});$$('#s-explore [data-node-id="2871:10946"]').forEach(t=>{const tg=t.querySelectorAll('p');if(tg.length>1)tg[tg.length-1].textContent=c.dataset.tags});closeSheets();toast(n==='선택 안 함'?'전체 취향으로 디깅해요':n+' 취향으로 디깅해요');const sc=$('#s-explore .sc');sc.animate([{opacity:.3,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'})},
+ dialPick(){const c=$('.dl-i.cur');if(!c)return;const n=c.dataset.n;{const th=c.querySelector('img.th');$$('#s-explore img[alt="빵친자"]').forEach(i=>i.src=th?th.getAttribute('src'):'a/av_bbang.webp')}$$('#s-explore [data-node-id="2871:10947"] p').forEach(nm=>{nm.firstChild.textContent=(n==='선택 안 함'?'전체':n+' 부캐')+' '});$$('#s-explore [data-node-id="2871:10946"]').forEach(t=>{const tg=t.querySelectorAll('p');if(tg.length>1)tg[tg.length-1].textContent=c.dataset.tags});closeSheets();toast(n==='선택 안 함'?'전체 취향으로 디깅해요':n+' 취향으로 디깅해요');const sc=$('#s-explore .sc');sc.animate([{opacity:.3,transform:'translateY(14px)'},{opacity:1,transform:'none'}],{duration:450,easing:'ease-out'})},
  decoSave(){const c=$('.dc-ch');c.classList.add('bump');setTimeout(()=>c.classList.remove('bump'),350);toast('빵친자 꾸미기를 저장했어요');setTimeout(back,700)},
  joinParty(){show('joined','up')},
  toggleSound(t){const v=$('#dtVid');v.muted=!v.muted;if(!v.muted)v.play();t.style.opacity=v.muted?'0.4':'1';toast(v.muted?'소리 꺼짐':'소리 켜짐')},
@@ -7144,10 +7144,10 @@ function renderDeco(t){const g=$('#dcGrid');let items;
  if(t==='theme')items=THEME.map(([n,k])=>({n,bg:`url(a/pt_${k}.webp)`}));
  else if(t==='hat')items=HAT.map(([n,k])=>k[0]==='L'?{n,lock:k.slice(1)}:k==='beret'?{n,bg:'url(a/hat_beret.webp)'}:{n,bg:'url(a/hats.webp)',pos:`${+k[1]*25}% 0%`,size:'500% 200%'});
  else items=Array.from({length:8},(_,i)=>({n:['준비 중','','',''][0],lock:i<2?'2':'3'}));
- const OK={theme:[0,1,3,7,11]};g.innerHTML=items.map((it,i)=>!it.lock&&!(OK[t]||[]).includes(i)?`<button class="dc-it na" data-i="${i}"><span class="im" style="background-image:${it.bg};${it.pos?`background-position:${it.pos};background-size:${it.size}`:''}"></span>${it.n}</button>`:it.lock?`<button class="dc-it lock" data-i="${i}"><span class="lk"><b>🔒 Lv.${it.lock}</b></span>${it.n}</button>`:`<button class="dc-it${decoSel[t]===i?' sel':''}" data-i="${i}"><span class="im" style="background-image:${it.bg};${it.pos?`background-position:${it.pos};background-size:${it.size}`:''}"></span>${it.n}</button>`).join('');
+ const OK={theme:[0,1,3,7,11],hat:[0,1,3]};g.innerHTML=items.map((it,i)=>!it.lock&&!(OK[t]||[]).includes(i)?`<button class="dc-it na" data-i="${i}"><span class="im" style="background-image:${it.bg};${it.pos?`background-position:${it.pos};background-size:${it.size}`:''}"></span>${it.n}</button>`:it.lock?`<button class="dc-it lock" data-i="${i}"><span class="lk"><b>🔒 Lv.${it.lock}</b></span>${it.n}</button>`:`<button class="dc-it${decoSel[t]===i?' sel':''}" data-i="${i}"><span class="im" style="background-image:${it.bg};${it.pos?`background-position:${it.pos};background-size:${it.size}`:''}"></span>${it.n}</button>`).join('');
  g.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:300,easing:'ease-out'})}
 let decoT='theme';
-$('#dcGrid').addEventListener('click',e=>{const b=e.target.closest('.dc-it');if(!b)return;if(b.classList.contains('lock'))return toast('부캐 레벨이 오르면 열려요');$$('.dc-it.sel').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');decoSel[decoT]=+b.dataset.i;const c=$('.dc-ch');const CH={theme:{0:'ch_t0',1:'ch_t1',3:'deco_char',7:'ch_t7',11:'ch_t11'},hat:{0:'ch_hC',1:'ch_hB',3:'ch_hA'}};const k=(CH[decoT]||{})[decoSel[decoT]]||'deco_char';
+$('#dcGrid').addEventListener('click',e=>{const b=e.target.closest('.dc-it');if(!b)return;if(b.classList.contains('lock'))return toast('부캐 레벨이 오르면 열려요');$$('.dc-it.sel').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');decoSel[decoT]=+b.dataset.i;const c=$('.dc-ch');const CH={theme:{0:'ch_t0',1:'ch_t1',3:'deco_char',7:'ch_t7',11:'ch_t11'},hat:{0:'deco_char',1:'ch_hB',3:'ch_hA'}};const k=(CH[decoT]||{})[decoSel[decoT]]||'deco_char';
  c.animate([{transform:'scale(1)',opacity:1},{transform:'scale(.82) translateY(10px)',opacity:0}],{duration:160,easing:'ease-in'}).onfinish=()=>{c.src='a/'+k+'.webp';c.animate([{transform:'scale(.82) translateY(10px)',opacity:0},{transform:'scale(1.06)',opacity:1,offset:.7},{transform:'none',opacity:1}],{duration:420,easing:'cubic-bezier(.34,1.56,.64,1)'})}});
 function moveUL(){const b=$('#dcTabs .on'),u=$('.dc-ul');u.style.left=b.offsetLeft+'px';u.style.width=b.offsetWidth+'px'}
 $('#dcTabs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#dcTabs button').forEach(x=>x.classList.toggle('on',x===b));decoT=b.dataset.t;moveUL();renderDeco(decoT)});
